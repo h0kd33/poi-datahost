@@ -1,0 +1,97 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<script src="bower_components/lodash/dist/lodash.min.js"></script>
+
+<dom-module id="poi-datahost">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <iron-ajax
+            id="ajax"
+            verbose
+            params='{"page":"1"}'
+            handle-as="json"
+            on-response="_handleResponse"
+            debounce-duration="300"
+    ></iron-ajax>
+  </template>
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'poi-datahost',
+
+      properties: {
+        data: {
+          type: Array,
+          value: function() { return []},
+          notify: true
+        },
+        previousData: {
+          type: Array,
+          value: function() { return []}
+        },
+        page: {
+          type: Number,
+          value: 0
+        }
+      },
+      /**
+       * Public
+       * */
+      initialization: function() {
+        var ajax = this.$.ajax;
+        this.page = 0;
+        ajax.url = "http://johnson.test:4300/";
+        ajax.params = {page: this.page};
+        ajax.generateRequest();
+      },
+      requestNextPage: function() {
+        var ajax = this.$.ajax;
+        this.page++;
+        ajax.params = {page: this.page};
+        ajax.generateRequest();
+      },
+      /**
+       * Private
+       * */
+      _handleResponse: function() {
+        var newData = this.$.ajax.lastResponse;
+        var oldData = this.data;
+        // cache previous data
+        this.previousData = this.data;
+        // bind index
+        newData.forEach(function(el, index){
+          el['index']= _.uniqueId();
+        });
+        var data = _.union(oldData, newData, 'serial');
+        this._injectData(data, this.previousData);
+      },
+      _injectData: function(newData, oldData) {
+        this.set('data', newData);
+      },
+      /**
+       * Live
+       * */
+      ready: function() {
+        this.initialization();
+      }
+    });
+  })();
+  </script>
+</dom-module>

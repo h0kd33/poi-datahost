@@ -1,0 +1,22 @@
+{
+  "name": "poi-datahost",
+  "homepage": "https://github.com/moetw/poi-datahost",
+  "authors": [
+    "JohnsonChung <johnson780510@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.4.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.9",
+    "lodash": "^4.10.0"
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../poi-datahost.html">
+</head>
+<body>
+    <template is="dom-bind" id="template">
+        <style>
+            section {
+                outline: 1px solid silver;
+                margin-bottom: 10px;
+            }
+        </style>
+        <poi-datahost data="{{data}}"></poi-datahost>
+        <div id="container">
+            <template is="dom-repeat" items="[[data]]" as="item">
+                <section>
+                    <h1>[[index]]</h1>
+                    <div>[[item.text]]</div>
+                    <div>Response: {{responseCount(item)}}</div>
+                </section>
+            </template>
+        </div>
+    </template>
+</body>
+<script>
+    (function(scope){
+        scope.data = [];
+        scope.responseCount = function(item) {
+            return item.response.length;
+        }
+    })(document.querySelector('#template'));
+</script>
+
+</html>
