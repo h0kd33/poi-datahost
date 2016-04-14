@@ -5,7 +5,7 @@
     "JohnsonChung <johnson780510@gmail.com>"
   ],
   "description": "",
-  "main": "./poi-datahost.html",
+  "main": "poi-datahost.html",
   "license": "MIT",
   "ignore": [
     "**/.*",
